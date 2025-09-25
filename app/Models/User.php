@@ -2,47 +2,48 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'cargo', // gerente ou funcionario
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Verifica se é gerente
      */
-    protected function casts(): array
+    public function isGerente(): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->cargo === 'gerente';
+    }
+
+    /**
+     * Verifica se é funcionário
+     */
+    public function isFuncionario(): bool
+    {
+        return $this->cargo === 'funcionario';
+    }
+
+    /**
+     * Relação: um gerente pode cadastrar produtos
+     */
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class, 'user_id');
     }
 }
