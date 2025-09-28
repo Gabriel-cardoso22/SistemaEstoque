@@ -17,11 +17,23 @@ class Produto extends Model
         'preco',
         'quantidade',
         'categoria',
-        'user_id', // quem cadastrou (gerente)
+        'user_id', // quem cadastrou
+        'fornecedor_id', // de quem foi comprado
     ];
+
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id'); // Relação: produto foi cadastrado por um usuário.
+    }
+
+    public function fornecedor()
+    {
+        return $this->belongsTo(Fornecedor::class, 'fornecedor_id'); // Relação: produto pertence a um fornecedor (por ser apenas um se usa belongsTo).
+    }
+
+    public function movimentacoes()
+    {
+        return $this->hasMany(Movimentacao::class, 'produto_id'); // Relação: um produto tem várias movimentações de estoque (por tervárias movimentações usa-se hasMany).
     }
 }
