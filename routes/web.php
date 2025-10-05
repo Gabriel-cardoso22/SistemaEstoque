@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckCargo;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ Route::post('/login', function (Request $request) {
         'password' => 'required'
     ]);
 
-    $credentials = $request->only('email','password');
+    $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
         // Login bem-sucedido
@@ -30,7 +31,7 @@ Route::post('/login', function (Request $request) {
 
         return response()->json([
             'status' => 'success',
-            'user' => $request->user() 
+            'user' => $request->user()
         ], 200);
     }
 
@@ -42,9 +43,12 @@ Route::post('/login', function (Request $request) {
 
 
 // Dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware([CheckCargo::class.":gerente"])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
 
 // Logout
 Route::post('/logout', function () {
