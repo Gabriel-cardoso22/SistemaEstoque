@@ -13,13 +13,33 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-// Ação de login (fake para protótipo)
+// Rota POST para login
 Route::post('/login', function (Request $request) {
-    if ($request->email === 'admin@email.com' && $request->password === '123') {
-        return redirect()->route('dashboard');
+
+    // Validação
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
+
+    $credentials = $request->only('email','password');
+
+    if (Auth::attempt($credentials)) {
+        // Login bem-sucedido
+        $request->session()->regenerate();
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $request->user() 
+        ], 200);
     }
-    return back()->with('error', 'Credenciais inválidas!');
+
+    return response()->json([
+        'status' => 'error',
+        'message' => 'Credenciais inválidas.'
+    ], 401);
 })->name('login.post');
+
 
 // Dashboard
 Route::get('/dashboard', function () {
