@@ -22,12 +22,16 @@ Route::post('/login', function (Request $request) {
         'password' => 'required'
     ]);
 
-    // Acesso HardCoded para desenvolvimento (feito por IA)
+    // Acesso HardCoded para desenvolvimento
     if ($request->email === 'admin@email.com' && $request->password === '123') {
-        // Simula autenticação para desenvolvimento
-        Auth::loginUsingId(1); // Assume que existe um usuário com ID 1, ou cria sessão fake
+        Auth::loginUsingId(1);
         $request->session()->regenerate();
-        return redirect()->route('dashboard')->with('success', 'Login realizado com sucesso! [MODO DEV]');
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Login realizado com sucesso! [DEV]',
+            'redirect' => route('dashboard')
+        ]);
     }
 
     $credentials = $request->only('email', 'password');
@@ -35,11 +39,19 @@ Route::post('/login', function (Request $request) {
     if (Auth::attempt($credentials)) {
         // Sucesso
         $request->session()->regenerate();
-        return redirect()->route('dashboard')->with('success', 'Login realizado com sucesso!');
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Login realizado com sucesso!',
+            'redirect' => route('dashboard')
+        ]);
     }
 
     // Erro
-    return back()->with('error', 'Credenciais inválidas. Verifique seu email e senha.');
+    return response()->json([
+        'success' => false,
+        'message' => 'Credenciais inválidas. Verifique seu email e senha.'
+    ], 401);
 })->name('login.post');
 
 // Dashboard com autenticação

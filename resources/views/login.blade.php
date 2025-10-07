@@ -67,22 +67,71 @@
     <div class="login-container">
         <h2>Login</h2>
         
-        {{-- Mensagem de sucesso --}}
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        
-        {{-- Mensagem de erro --}}
-        @if(session('error'))
-            <div class="alert alert-error">{{ session('error') }}</div>
-        @endif
-        
-        <form method="POST" action="{{ route('login.post') }}">
+        <form id="loginForm">
             @csrf
-            <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required>
-            <input type="password" name="password" placeholder="Senha" required>
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
+        
+        <!-- Area para mensagens -->
+        <div id="message" style="display: none;"></div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Coleta dados do formulario
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const token = document.querySelector('input[name="_token"]').value;
+            
+            // Limpa mensagens anteriores
+            const messageDiv = document.getElementById('message');
+            messageDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    // Sucesso
+                    messageDiv.className = 'alert alert-success';
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.display = 'block';
+                    
+                    // Redireciona apos 1 segundo
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1000);
+                    
+                } else {
+                    // Erro
+                    messageDiv.className = 'alert alert-error';
+                    messageDiv.textContent = data.message || 'Erro no login';
+                    messageDiv.style.display = 'block';
+                }
+                
+            } catch (error) {
+                // Erro de rede
+                messageDiv.className = 'alert alert-error';
+                messageDiv.textContent = 'Erro de conexão. Tente novamente.';
+                messageDiv.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
