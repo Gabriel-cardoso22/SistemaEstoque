@@ -30,3 +30,8 @@ Route::get('/dashboard', function () {
 Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
+
+//Para teste das blades e layouts
+Route::get('/telaCadastro', function () {
+    return view('telaCadastro');
+})->name('telaCadastro');

@@ -10,9 +10,8 @@
             background: #f4f6f9;
             margin: 0;
         }
-        header {
-            background: #007bff;
-            color: white;
+        section {
+            color:black;
             padding: 15px;
             text-align: center;
         }
@@ -49,13 +48,16 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Dashboard - Sistema de Estoque</h1>
+    @extends ('layouts.app')
+
+    @section('content')
+    <section>
+        <h2>Dashboard - Sistema de Estoque</h2>
         <form method="POST" action="{{ route('logout') }}" style="display:inline;">
             @csrf
             <button class="logout">Sair</button>
         </form>
-    </header>
+    </section>
 
     <div class="dashboard">
         <div class="card">
@@ -71,5 +73,6 @@
             <p>Visualize relatórios básicos.</p>
         </div>
     </div>
+    @endsection
 </body>
 </html>

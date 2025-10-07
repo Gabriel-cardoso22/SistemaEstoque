@@ -52,6 +52,7 @@
     </style>
 </head>
 <body>
+    @extends('layouts.app')
     <div class="login-container">
         <h2>Login</h2>
         <form method="POST" action="{{ route('login.post') }}">
