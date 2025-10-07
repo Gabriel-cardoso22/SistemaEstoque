@@ -58,18 +58,21 @@
     </header>
 
     <div class="dashboard">
-        <div class="card">
+        <div class="card" data-section="produtos">
             <h3>Produtos</h3>
             <p>Gerencie os produtos do estoque.</p>
         </div>
-        <div class="card">
+        <div class="card" data-section="usuarios">
             <h3>Usuários</h3>
             <p>Controle os usuários do sistema.</p>
         </div>
-        <div class="card">
+        <div class="card" data-section="relatorios">
             <h3>Relatórios</h3>
             <p>Visualize relatórios básicos.</p>
         </div>
     </div>
+
+@include('components.tabelaProdutos')
+
 </body>
 </html>
