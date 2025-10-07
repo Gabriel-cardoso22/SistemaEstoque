@@ -46,23 +46,43 @@
             background: #0056b3;
         }
         .alert {
-            margin-top: 10px;
-            color: red;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
+        
+        {{-- Mensagem de sucesso --}}
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        
+        {{-- Mensagem de erro --}}
+        @if(session('error'))
+            <div class="alert alert-error">{{ session('error') }}</div>
+        @endif
+        
         <form method="POST" action="{{ route('login.post') }}">
             @csrf
-            <input type="text" name="email" placeholder="E-mail" required>
+            <input type="email" name="email" placeholder="E-mail" value="{{ old('email') }}" required>
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
-        @if(session('error'))
-            <div class="alert">{{ session('error') }}</div>
-        @endif
     </div>
 </body>
 </html>
