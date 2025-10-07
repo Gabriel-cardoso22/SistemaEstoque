@@ -1,32 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
+use App\Http\Controllers\LoginController;
 
-// Redireciona a rota raiz "/" para a tela de login
+// Rota principal → redireciona para login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
 // Tela de login
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-// Ação de login (fake para protótipo)
-Route::post('/login', function (Request $request) {
-    if ($request->email === 'admin@email.com' && $request->password === '123') {
-        return redirect()->route('dashboard');
-    }
-    return back()->with('error', 'Credenciais inválidas!');
-})->name('login.post');
+// Ação de autenticação
+Route::post('/login', [LoginController::class, 'autenticar'])->name('login.autenticar');
 
-// Dashboard
+// Dashboard (tela inicial após login)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-// Logout
+// Logout (simples - volta ao login)
 Route::post('/logout', function () {
     return redirect()->route('login');
 })->name('logout');
