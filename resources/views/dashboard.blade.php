@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-    @extends ('layouts.app')
+    @extends ('layouts.appII')
 
     @section('content')
     <section>

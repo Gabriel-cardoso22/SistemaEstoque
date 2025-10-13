@@ -1,0 +1,56 @@
+/* Resetando margens e preenchimentos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Barra de Navegação (fixa abaixo do header) */
+.navbar {
+    position: fixed;
+    top: 70px; /* Espaço abaixo do header */
+    left: 0;
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 0;  /* Ajuste para garantir o espaço adequado na barra */
+    z-index: 999; /* Para garantir que a barra de navegação fique abaixo do header */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu de navegação */
+.navbar .menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: center; /* Centraliza os itens do menu */
+    gap: 20px;  /* Espaçamento entre os links */
+}
+
+.navbar .menu li {
+    margin: 0;  /* Remove margens adicionais nos itens */
+}
+
+.navbar .menu li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    display: block;  /* Faz o link ocupar toda a área clicável */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;  /* Adiciona bordas arredondadas aos links */
+}
+
+.navbar .menu li a:hover {
+    background-color: #f1c40f;
+    color: #007BFF;
+}
+
+/* Ajustando o conteúdo da página para que não sobreponha o header e a navbar */
+body {
+    padding-top: 130px;
+}

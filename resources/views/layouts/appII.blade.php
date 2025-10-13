@@ -12,6 +12,9 @@
     {{-- Header --}}
     @include('layouts.header')
 
+    {{-- NavBar --}}
+    @include('layouts.navBar')
+
     {{-- Conteúdo --}}
     <main style="margin-top: 80px;">
         @yield('content')
