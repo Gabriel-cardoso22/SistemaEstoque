@@ -1,9 +1,11 @@
+/* ======= Geral ======= */
 body {
     font-family: Arial, sans-serif;
     background: #f4f6f9;
     margin: 0;
 }
 
+/* ======= Header ======= */
 header {
     background: #007bff;
     color: white;
@@ -12,6 +14,27 @@ header {
     position: relative;
 }
 
+header h1 {
+    margin: 0;
+}
+
+.logout {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: red;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background: darkred;
+}
+
+/* ======= Dashboard ======= */
 .dashboard {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -31,18 +54,106 @@ header {
     margin-bottom: 10px;
 }
 
-.logout {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: red;
+.card button {
+    background: #28a745;
     color: white;
-    padding: 8px 12px;
     border: none;
+    padding: 10px 15px;
     border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
 }
 
-.logout:hover {
-    background: darkred;
+.card button:hover {
+    background: #218838;
+}
+
+/* ======= Modal ======= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+@media screen and (max-width: 400px) {
+    .modal-content {
+        width: 90%;
+        margin: 20% auto;
+    }
+}
+
+.fechar {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.fechar:hover {
+    color: red;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.btn-salvar {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.btn-salvar:hover {
+    background: #0056b3;
+}
+
+/* Mensagens de feedback */
+.erro {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sucesso {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
 }
