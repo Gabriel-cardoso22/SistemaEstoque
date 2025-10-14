@@ -18,7 +18,7 @@
         }
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
         }
@@ -28,6 +28,10 @@
             border-radius: 10px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
             text-align: center;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: scale(1.02);
         }
         .card h3 {
             margin-bottom: 10px;
@@ -45,6 +49,41 @@
         }
         .logout:hover {
             background: darkred;
+        }
+        .produtos-container {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 18px;
+            }
+            .card p {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -72,7 +111,8 @@
         </div>
     </div>
 
-@include('components.tabelaProdutos')
-
+    <div class="produtos-container">
+        @include('components.tabelaProdutos')
+    </div>
 </body>
 </html>
