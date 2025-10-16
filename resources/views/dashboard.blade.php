@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Sistema de Estoque</title>
-    <link rel="stylesheet" href="{{ asset('CSS/dashboard.css') }}">
-    <script defer src="{{ asset('JS/dashboard.js') }}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .card h3 {
+            margin-bottom: 10px;
+        }
+        .logout {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .logout:hover {
+            background: darkred;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -19,45 +60,18 @@
 
     <!-- Dashboard Cards -->
     <div class="dashboard">
-        <div class="card">
+        <div class="card" data-section="produtos">
             <h3>Produtos</h3>
             <p>Gerencie os produtos do estoque.</p>
             <button id="abrirModal">Cadastrar Produto</button>
         </div>
-
         <div class="card">
             <h3>Usuários</h3>
             <p>Controle os usuários do sistema.</p>
         </div>
-
         <div class="card">
             <h3>Relatórios</h3>
             <p>Visualize relatórios básicos.</p>
-        </div>
-    </div>
-
-    <!-- Modal de Cadastro de Produto -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="fechar">&times;</span>
-            <h2>Cadastrar Produto</h2>
-            <form id="formProduto" method="POST" action="{{ route('produtos.store') }}">
-                @csrf
-                <label for="nome">Nome do Produto*</label>
-                <input type="text" id="nome" name="nome" required>
-
-                <label for="categoria">Categoria*</label>
-                <input type="text" id="categoria" name="categoria" required>
-
-                <label for="preco">Preço (R$)*</label>
-                <input type="number" id="preco" name="preco" step="0.01" required>
-
-                <label for="quantidade">Quantidade*</label>
-                <input type="number" id="quantidade" name="quantidade" required>
-
-                <button type="submit" class="btn-salvar">Salvar</button>
-                <p id="mensagemErro"></p> <!-- feedback de sucesso ou erro -->
-            </form>
         </div>
     </div>
 </body>
