@@ -66,10 +66,3 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect()->route('login')->with('success', 'Logout realizado com sucesso!');
 })->name('logout');
-
-//Controller Produto
-Route::get('/dashboard', function() {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
