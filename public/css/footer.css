@@ -1,0 +1,21 @@
+.main-footer {
+    position: fixed;       /* Fixo no final */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;  /* Cor de fundo escura */
+    color: white;            /* Texto branco */
+    padding: 10px 30px;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.main-footer span {
+    margin: 0 5px;
+    font-size: 14px;
+}
+main {
+    margin-top: 80px;     /* altura do header */
+    padding-bottom: 50px; /* altura do footer */
+}

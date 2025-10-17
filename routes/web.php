@@ -66,3 +66,8 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect()->route('login')->with('success', 'Logout realizado com sucesso!');
 })->name('logout');
+
+//Para teste das blades e layouts
+Route::get('/telaCadastro', function () {
+    return view('telaCadastro');
+})->name('telaCadastro');

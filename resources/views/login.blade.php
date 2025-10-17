@@ -64,6 +64,7 @@
     </style>
 </head>
 <body>
+    @extends('layouts.app')
     <div class="login-container">
         <h2>Login</h2>
         

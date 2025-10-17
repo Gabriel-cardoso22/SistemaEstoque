@@ -95,7 +95,7 @@
             @csrf
             <button class="logout">Sair</button>
         </form>
-    </header>
+    </section>
 
     <!-- Dashboard Cards -->
     <div class="dashboard">
