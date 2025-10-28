@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\GerenteController;
 
 // Rota principal → redireciona para login
 Route::get('/', function () {
@@ -29,22 +30,21 @@ Route::post('/login', function (Request $request) {
         return response()->json([
             'success' => true,
             'message' => 'Login realizado com sucesso! [DEV]',
-            'redirect' => route('dashboard')
+            'redirect' => route('dashboardGerente')
         ]);
     }
 
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        // Sucesso
         $request->session()->regenerate();
-        
         return response()->json([
             'success' => true,
             'message' => 'Login realizado com sucesso!',
-            'redirect' => route('dashboard')
+            'redirect' => route('dashboardGerente') // 👈 Corrigido
         ]);
     }
+    
 
     // Erro
     return response()->json([
@@ -52,13 +52,6 @@ Route::post('/login', function (Request $request) {
         'message' => 'Credenciais inválidas. Verifique seu email e senha.'
     ], 401);
 })->name('login.post');
-
-// Dashboard com autenticação
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
 
 // Logout
 Route::post('/logout', function (Request $request) {
@@ -68,7 +61,8 @@ Route::post('/logout', function (Request $request) {
     return redirect()->route('login')->with('success', 'Logout realizado com sucesso!');
 })->name('logout');
 
-//Para teste das blades e layouts
-Route::get('/telaCadastro', function () {
-    return view('telaCadastro');
-})->name('telaCadastro');
+Route::resource('gerentes', GerenteController::class);
+
+Route::get('/dashboardGerente', [DashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('dashboardGerente');

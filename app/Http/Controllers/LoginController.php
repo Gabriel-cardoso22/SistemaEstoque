@@ -9,7 +9,7 @@ class LoginController extends Controller
     // Exibe o formulário de login
     public function index()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     // Processa o login
@@ -20,7 +20,7 @@ class LoginController extends Controller
 
         // Exemplo simples de autenticação
         if ($usuario === 'admin' && $senha === '123456') {
-            return redirect('/dashboard');
+            return redirect('/dashboardGerente');
         }
 
         // Se falhar, volta com mensagem de erro
