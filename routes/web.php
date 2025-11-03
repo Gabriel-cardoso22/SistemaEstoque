@@ -5,28 +5,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\GerenteController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProdutoController;
 
-// Rota principal → redireciona para login
+// ROTA PRINCIPAL → Redireciona para login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Tela de login
+// LOGIN
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-// Processa o login
 Route::post('/login', function (Request $request) {
-    // Validação
     $request->validate([
         'email' => 'required|email',
         'password' => 'required'
     ]);
 
-    // Acesso HardCoded para desenvolvimento
+    // 🔹 Acesso HardCoded para desenvolvimento
     if ($request->email === 'admin@email.com' && $request->password === '123') {
         Auth::loginUsingId(1);
         $request->session()->regenerate();
-        
         return response()->json([
             'success' => true,
             'message' => 'Login realizado com sucesso! [DEV]',
@@ -41,19 +40,17 @@ Route::post('/login', function (Request $request) {
         return response()->json([
             'success' => true,
             'message' => 'Login realizado com sucesso!',
-            'redirect' => route('dashboardGerente') // 👈 Corrigido
+            'redirect' => route('dashboardGerente')
         ]);
     }
-    
 
-    // Erro
     return response()->json([
         'success' => false,
         'message' => 'Credenciais inválidas. Verifique seu email e senha.'
     ], 401);
 })->name('login.post');
 
-// Logout
+// LOGOUT
 Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
@@ -61,8 +58,21 @@ Route::post('/logout', function (Request $request) {
     return redirect()->route('login')->with('success', 'Logout realizado com sucesso!');
 })->name('logout');
 
-Route::resource('gerentes', GerenteController::class);
+// ROTAS PROTEGIDAS (APÓS LOGIN)
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/dashboardGerente', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboardGerente');
+    // Dashboard principal
+    Route::get('/dashboardGerente', [DashboardController::class, 'index'])
+        ->name('dashboardGerente');
+
+    // Gerentes
+    Route::resource('gerentes', GerenteController::class);
+
+    // 🔹 CRUD de Produtos (API completa)
+    Route::resource('produtos', ProdutoController::class);
+});
+
+// ROTA DE TESTE DE TELAS (opcional)
+Route::get('/telaCadastro', function () {
+    return view('telaCadastro');
+})->name('telaCadastro');
