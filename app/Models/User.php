@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,8 +13,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'telefone',
         'password',
-        'cargo', // gerente ou funcionario
+        'role', // 'gerente' ou 'funcionario'
     ];
 
     protected $hidden = [
@@ -23,25 +23,25 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // Verifica se é gerente
+    // Helpers
     public function isGerente(): bool
     {
-        return $this->cargo === 'gerente';
+        return $this->role === 'gerente';
     }
 
-    // Verifica se é funcionário
     public function isFuncionario(): bool
     {
-        return $this->cargo === 'funcionario';
+        return $this->role === 'funcionario';
     }
 
+    // Relações (exemplo)
     public function produtos()
     {
-        return $this->hasMany(Produto::class, 'user_id'); // Relação: um gerente pode cadastrar produtos
+        return $this->hasMany(Produto::class, 'user_id');
     }
 
     public function movimentacoes()
     {
-        return $this->hasMany(Movimentacao::class, 'user_id'); // Relação: um usuário pode realizar várias movimentações
+        return $this->hasMany(Movimentacao::class, 'user_id');
     }
 }

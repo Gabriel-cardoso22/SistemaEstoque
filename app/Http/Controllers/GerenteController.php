@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gerente;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -42,21 +42,34 @@ class GerenteController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:gerentes,email',
+            'email' => 'required|email|unique:users,email',
             'telefone' => 'nullable|string|max:20',
         ]);
 
         $senhaTemporaria = Str::random(10);
 
-        return redirect()->route('gerentes.list')
-                         ->with('success', 'Gerente cadastrado com sucesso!');
+        $gerente = User::create([
+            'name'      => $request->nome,
+            'email'     => $request->email,
+            'telefone'  => $request->telefone, // precisa existir no banco
+            'password'  => Hash::make($senhaTemporaria),
+            'role'      => 'gerente',
+        ]);
+
+        // Mail::raw("Olá {$gerente->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($gerente) {
+        //     $message->to($gerente->email)
+        //             ->subject('Criação de conta - Defina sua senha');
+        // });
+
+        return redirect()->route('gerentes.index')
+                        ->with('success', 'Gerente cadastrado com sucesso! Um e-mail foi enviado para redefinir a senha.');
     }
 
 
     /**
      * Exibe formulário de edição (rota: gerentes.edit)
      */
-    public function edit(Gerente $gerente)
+    public function edit(User $gerente)
     {
         return view('Gerencia.edit', compact('gerente'));
     }
@@ -64,7 +77,7 @@ class GerenteController extends Controller
     /**
      * Atualiza gerente (rota: gerentes.update)
      */
-    public function update(Request $request, Gerente $gerente)
+    public function update(Request $request, User $gerente)
     {
         $request->validate([
             'name'  => 'required|string|max:255',
@@ -80,7 +93,7 @@ class GerenteController extends Controller
     /**
      * Exclui gerente (rota: gerentes.destroy)
      */
-    public function destroy(Gerente $gerente)
+    public function destroy(User $gerente)
     {
         $gerente->delete();
 
