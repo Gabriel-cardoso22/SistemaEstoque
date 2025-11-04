@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GerenteController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FuncionarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,15 +13,11 @@ use App\Http\Controllers\ProdutoController;
 |--------------------------------------------------------------------------
 */
 
-// Rota principal → Redireciona para login
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// Página inicial → redireciona para login
+Route::get('/', fn() => redirect()->route('login'));
 
-// Login (formulário)
+// Login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
-
-// Tentativa de login (POST)
 Route::post('/login', [AuthController::class, 'loginAttempt'])->name('login.attempt');
 
 // Logout
@@ -28,31 +25,31 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
-| Rotas Protegidas (Somente usuários autenticados)
+| Rotas Protegidas (somente autenticados)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth'])->group(function () {
-    // Dashboard de Gerente
-    Route::get('/dashboard/gerente', [DashboardController::class, 'gerente'])
-        ->name('dashboard.gerente');
+    // Dashboard do gerente
+    Route::get('/dashboard/gerente', [GerenteController::class, 'index'])->name('dashboard.gerente');
+    // Lista de gerentes
+    Route::get('/gerentes/listar', [GerenteController::class, 'list'])
+        ->name('gerentes.list');
 
-    // Dashboard de Funcionário
-    Route::get('/dashboard/funcionario', [DashboardController::class, 'funcionario'])
-        ->name('dashboard.funcionario');
 
-    // CRUD de Gerentes
-    Route::resource('gerentes', GerenteController::class);
+    // Dashboard do funcionário
+    Route::get('/dashboard/funcionario', [FuncionarioController::class, 'funcionario'])->name('dashboard.funcionario');
 
-    // CRUD de Produtos
+    // CRUD de gerentes
+    Route::resource('gerentes', GerenteController::class)->except(['index']);
+
+    // CRUD de produtos
     Route::resource('produtos', ProdutoController::class);
 });
 
 /*
 |--------------------------------------------------------------------------
-| Rota opcional de teste de tela
+| Rota opcional de teste
 |--------------------------------------------------------------------------
 */
-Route::get('/telaCadastro', function () {
-    return view('telaCadastro');
-})->name('telaCadastro');
+Route::get('/telaCadastro', fn() => view('telaCadastro'))->name('telaCadastro');

@@ -7,17 +7,35 @@ use Illuminate\Http\Request;
 
 class GerenteController extends Controller
 {
+    /**
+     * Exibe o dashboard do gerente.
+     */
     public function index()
     {
-        $gerentes = Gerente::all();
-        return view('gerentes.index', compact('gerentes'));
+        // Aqui você pode futuramente adicionar estatísticas ou dados do dashboard
+        return view('Gerencia.dashboard');
     }
 
+    /**
+     * Lista todos os gerentes registrados.
+     */
+    public function list()
+    {
+        $gerentes = Gerente::all();
+        return view('Gerencia.index', compact('gerentes'));
+    }
+
+    /**
+     * Exibe o formulário de cadastro de gerente.
+     */
     public function create()
     {
-        return view('gerentes.create');
+        return view('Gerencia.create');
     }
 
+    /**
+     * Salva um novo gerente no banco de dados.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -28,15 +46,21 @@ class GerenteController extends Controller
 
         Gerente::create($request->all());
 
-        return redirect()->route('gerentes.index')
+        return redirect()->route('gerentes.list')
                          ->with('success', 'Gerente cadastrado com sucesso!');
     }
 
+    /**
+     * Exibe o formulário de edição de um gerente.
+     */
     public function edit(Gerente $gerente)
     {
-        return view('gerentes.edit', compact('gerente'));
+        return view('Gerencia.edit', compact('gerente'));
     }
 
+    /**
+     * Atualiza os dados de um gerente.
+     */
     public function update(Request $request, Gerente $gerente)
     {
         $request->validate([
@@ -47,14 +71,18 @@ class GerenteController extends Controller
 
         $gerente->update($request->all());
 
-        return redirect()->route('gerentes.index')
+        return redirect()->route('gerentes.list')
                          ->with('success', 'Gerente atualizado com sucesso!');
     }
 
+    /**
+     * Exclui um gerente.
+     */
     public function destroy(Gerente $gerente)
     {
         $gerente->delete();
-        return redirect()->route('gerentes.index')
+
+        return redirect()->route('gerentes.list')
                          ->with('success', 'Gerente excluído com sucesso!');
     }
 }
