@@ -4,9 +4,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Produto;
 use App\Models\Fornecedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class ProdutoController extends Controller
@@ -19,6 +21,7 @@ class ProdutoController extends Controller
 
     public function create()
     {
+        Log::info("Produto criado por");
         $fornecedores = Fornecedor::all();
         return view('produtos.create', compact('fornecedores'));
     }
@@ -49,6 +52,7 @@ class ProdutoController extends Controller
 
     public function edit(Produto $produto)
     {
+        Log::info("Produto editado por ");
         $fornecedores = Fornecedor::all();
         return view('produtos.edit', compact('produto', 'fornecedores'));
     }
@@ -72,6 +76,7 @@ class ProdutoController extends Controller
 
     public function destroy(Produto $produto)
     {
+        Log::info("Produto deletado por");
         $produto->delete();
 
         return redirect()->route('produtos.index')
