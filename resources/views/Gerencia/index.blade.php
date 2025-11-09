@@ -4,7 +4,15 @@
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0">Gerentes</h4>
+    <div class="d-flex align-items-center gap-2">
+        {{-- 🔙 Botão de Voltar para Dashboard --}}
+        <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
+            ← Voltar para Dashboard
+        </a>
+        <h4 class="mb-0">Gerentes</h4>
+    </div>
+
+    {{-- ➕ Botão de Novo Gerente --}}
     <a href="{{ route('gerentes.create') }}" class="btn btn-primary">+ Novo Gerente</a>
 </div>
 

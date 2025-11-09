@@ -56,23 +56,44 @@
 <body>
 
     {{-- HEADER FIXO --}}
-    <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="{{ url('/') }}">Sistema de Gestão de Estoque</a>
+        <header>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand fw-bold" href="{{ url('/') }}">Sistema de Gestão de Estoque</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                    </ul>
+                    @if (!Request::is('login'))
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+
+                                {{-- Se o usuário NÃO estiver logado --}}
+                                @guest
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('login') }}">Login</a>
+                                    </li>
+                                @endguest
+
+                                {{-- Se o usuário ESTIVER logado --}}
+                                @auth
+                                    <li class="nav-item">
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="nav-link btn btn-link text-decoration-none">
+                                                Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                @endauth
+
+                            </ul>
+                        </div>
+                    @endif
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
     {{-- CONTEÚDO PRINCIPAL --}}
     <div class="content-wrapper container my-4">
