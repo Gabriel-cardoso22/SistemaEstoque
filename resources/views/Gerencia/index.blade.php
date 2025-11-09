@@ -34,7 +34,7 @@
         @forelse($gerentes as $gerente)
             <tr>
                 <td class="text-center">{{ $gerente->id }}</td>
-                <td>{{ $gerente->nome }}</td>
+                <td>{{ $gerente->name }}</td>
                 <td>{{ $gerente->email }}</td>
                 <td>{{ $gerente->telefone ?? '-' }}</td>
                 <td class="text-center">
