@@ -30,17 +30,47 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // Redirecionamento baseado no tipo de usuário
+            // Determinar URL de redirecionamento baseado no tipo de usuário
+            $redirectUrl = null;
             if ($user->role === 'gerente') {
-                return redirect()->route('dashboard.gerente'); // rota para gerente
+                $redirectUrl = route('dashboard.gerente');
+            } elseif ($user->role === 'funcionario') {
+                $redirectUrl = route('dashboard.funcionario');
+            } else {
+                // Caso não tenha role definida ou role inválida
+                Auth::logout();
+                
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Usuário sem permissões adequadas. Entre em contato com o administrador.'
+                    ], 403);
+                }
+                
+                return redirect()->route('login')->withErrors([
+                    'error' => 'Usuário sem permissões adequadas.',
+                ]);
             }
 
-            if ($user->role === 'funcionario') {
-                return redirect()->route('dashboard.funcionario'); // rota para funcionário
+            // Responder com JSON se requisição espera JSON
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Login realizado com sucesso!',
+                    'redirect' => $redirectUrl
+                ]);
             }
 
-            // Caso não tenha role definida, redireciona para uma rota padrão
-            return redirect()->route('home');
+            // Redirecionamento tradicional
+            return redirect($redirectUrl);
+        }
+
+        // Falha na autenticação
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Credenciais inválidas. Tente novamente.'
+            ], 401);
         }
 
         return back()->withInput()->withErrors([

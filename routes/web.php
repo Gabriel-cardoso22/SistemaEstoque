@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GerenteController;
 use App\Http\Controllers\FuncionarioController;
@@ -14,6 +15,23 @@ use App\Http\Controllers\ProdutoController;
 
 // Página inicial → redireciona para login
 Route::get('/', fn() => redirect()->route('login'));
+
+// Home (dashboard geral)
+Route::get('/home', function() {
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->role === 'gerente') {
+            return redirect()->route('dashboard.gerente');
+        }
+        if ($user->role === 'funcionario') {
+            return redirect()->route('dashboard.funcionario');
+        }
+        // Se não tem role definida, redireciona para o login
+        Auth::logout();
+        return redirect()->route('login')->withErrors(['error' => 'Usuário sem permissões definidas.']);
+    }
+    return redirect()->route('login');
+})->name('home');
 
 // Login
 Route::get('/login', [AuthController::class, 'index'])->name('login');
