@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [FuncionarioController::class, 'index'])->name('dashboard.funcionario');
 
         // CRUD de funcionários
-        Route::get('/', [FuncionarioController::class, 'index'])->name('funcionarios.index');
+        Route::get('/', [FuncionarioController::class, 'list'])->name('funcionarios.index');
         Route::get('/create', [FuncionarioController::class, 'create'])->name('funcionarios.create');
         Route::post('/', [FuncionarioController::class, 'store'])->name('funcionarios.store');
         Route::get('/{funcionario}/edit', [FuncionarioController::class, 'edit'])->name('funcionarios.edit');
