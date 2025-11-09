@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class FuncionarioController extends Controller
 {
@@ -41,28 +39,32 @@ class FuncionarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'telefone' => 'nullable|string|max:20',
         ]);
-
-        // Gera uma senha aleatória e salva o hash
-        $senhaTemporaria = Str::random(10);
 
         $funcionario = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => Hash::make($senhaTemporaria),
+            'telefone' => $request->telefone,
+            'password' => Hash::make($request->password),
             'role'     => 'funcionario',
         ]);
 
-        // Envia o e-mail com instrução para redefinir senha
-        Mail::raw("Olá {$funcionario->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($funcionario) {
-            $message->to($funcionario->email)
-                    ->subject('Criação de conta - Defina sua senha');
-        });
+        /** Envia o e-mail com instrução para redefinir senha (legado)
+        * Mail::raw("Olá {$funcionario->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($funcionario) {
+        *    $message->to($funcionario->email)
+        *            ->subject('Criação de conta - Defina sua senha');
+        *});
+
+        *return redirect()->route('funcionarios.index')
+        *                 ->with('success', 'Funcionário cadastrado com sucesso! Um e-mail foi enviado para redefinir a senha.');
+        */
 
         return redirect()->route('funcionarios.index')
-                         ->with('success', 'Funcionário cadastrado com sucesso! Um e-mail foi enviado para redefinir a senha.');
+                         ->with('success', "Funcionário {$funcionario->name} cadastrado com sucesso!");
     }
 
     /**
@@ -78,15 +80,37 @@ class FuncionarioController extends Controller
      */
     public function update(Request $request, User $funcionario)
     {
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $funcionario->id,
-        ]);
+        // Validações base
+        $rules = [
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email,' . $funcionario->id,
+            'telefone' => 'nullable|string|max:20',
+        ];
 
-        $funcionario->update($request->only(['name', 'email']));
+        // Se marcou para alterar senha, adicionar validações de senha
+        if ($request->has('change_password')) {
+            $rules['password'] = 'required|string|min:6|confirmed';
+        }
+
+        $request->validate($rules);
+
+        // Dados para atualizar
+        $dataToUpdate = $request->only(['name', 'email', 'telefone']);
+
+        // Se marcou para alterar senha, incluir a nova senha
+        if ($request->has('change_password') && $request->password) {
+            $dataToUpdate['password'] = Hash::make($request->password);
+        }
+
+        $funcionario->update($dataToUpdate);
+
+        $message = 'Funcionário atualizado com sucesso!';
+        if ($request->has('change_password')) {
+            $message = 'Funcionário atualizado com sucesso! A senha foi alterada.';
+        }
 
         return redirect()->route('funcionarios.index')
-                         ->with('success', 'Funcionário atualizado com sucesso!');
+                         ->with('success', $message);
     }
 
     /**
