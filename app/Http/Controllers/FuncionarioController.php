@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+
 
 class FuncionarioController extends Controller
 {
@@ -52,6 +54,8 @@ class FuncionarioController extends Controller
             'password' => Hash::make($request->password),
             'role'     => 'funcionario',
         ]);
+
+        Log::info("Usuário funcionário de nome: " . $request->name . " e email: " . $request->email);
 
         /** Envia o e-mail com instrução para redefinir senha (legado)
         * Mail::raw("Olá {$funcionario->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($funcionario) {

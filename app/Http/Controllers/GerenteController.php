@@ -56,6 +56,9 @@ class GerenteController extends Controller
             'role'      => 'gerente',
         ]);
 
+        Log::info("Usuário gerente de nome: " . $request->name . " e email: " . $request->email);
+
+
         // Mail::raw("Olá {$gerente->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($gerente) {
         //     $message->to($gerente->email)
         //             ->subject('Criação de conta - Defina sua senha');
