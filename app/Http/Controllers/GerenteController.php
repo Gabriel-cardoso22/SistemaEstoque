@@ -56,7 +56,7 @@ class GerenteController extends Controller
             'role'      => 'gerente',
         ]);
 
-        Log::info("Usuário gerente de nome: " . $request->name . " e email: " . $request->email);
+        Log::info("Conta Criada: Usuário gerente de nome: " . $request->name . " e email: " . $request->email);
 
 
         // Mail::raw("Olá {$gerente->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($gerente) {
@@ -88,6 +88,7 @@ class GerenteController extends Controller
         ]);
 
         $gerente->update($request->only(['name', 'email']));
+        Log::info("Usuário gerente de nome: " . $request->name . " e email: " . $request->email . ", atualizou sua conta");
 
         return redirect()->route('gerentes.index')
                          ->with('success', 'Gerente atualizado com sucesso!');
@@ -99,7 +100,7 @@ class GerenteController extends Controller
     public function destroy(User $gerente)
     {
         $gerente->delete();
-
+        Log::info("Usuário gerente de nome: " . $gerente->name . " e email: " . $gerente->email . ", excluiu sua conta");
         return redirect()->route('gerentes.index')
                          ->with('success', 'Gerente excluído com sucesso!');
     }

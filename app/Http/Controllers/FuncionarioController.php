@@ -55,7 +55,7 @@ class FuncionarioController extends Controller
             'role'     => 'funcionario',
         ]);
 
-        Log::info("Usuário funcionário de nome: " . $request->name . " e email: " . $request->email);
+        Log::info("Conta crida: Usuário funcionário de nome: " . $request->name . " e email: " . $request->email);
 
         /** Envia o e-mail com instrução para redefinir senha (legado)
         * Mail::raw("Olá {$funcionario->name}, sua conta foi criada. Acesse o sistema e redefina sua senha.", function ($message) use ($funcionario) {
@@ -108,6 +108,8 @@ class FuncionarioController extends Controller
 
         $funcionario->update($dataToUpdate);
 
+        Log::info("Usuário funcionário de nome: " . $request->name . " e email: " . $request->email . ", atualizou sua conta");
+
         $message = 'Funcionário atualizado com sucesso!';
         if ($request->has('change_password')) {
             $message = 'Funcionário atualizado com sucesso! A senha foi alterada.';
@@ -123,7 +125,7 @@ class FuncionarioController extends Controller
     public function destroy(User $funcionario)
     {
         $funcionario->delete();
-
+        Log::info("Usuário funcionário de nome: " . $funcionario->name . " e email: " . $funcionario->email . ", excluiu sua conta");
         return redirect()->route('funcionarios.index')
                          ->with('success', 'Funcionário excluído com sucesso!');
     }
