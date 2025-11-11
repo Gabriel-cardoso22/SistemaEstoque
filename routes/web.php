@@ -88,7 +88,21 @@ Route::middleware(['auth'])->group(function () {
     | ROTAS PRODUTOS
     |--------------------------------------------------------------------------
     */
-    Route::resource('produtos', ProdutoController::class);
+    Route::prefix('produtos')->group(function () {
+
+        Route::get('/dashboard', [ProdutoController::class, 'index'])->name('dashboard.produto');
+    
+        Route::get('/', [ProdutoController::class, 'index'])->name('produto.index');
+        Route::get('/create', [ProdutoController::class, 'create'])->name('produto.create');
+        Route::post('/', [ProdutoController::class, 'store'])->name('produto.store');
+        Route::get('/{produto}/edit', [ProdutoController::class, 'edit'])->name('produto.edit');
+        Route::put('/{produto}', [ProdutoController::class, 'update'])->name('produto.update');
+        Route::delete('/{produto}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
+    
+        // Opcional
+        // Route::get('/{produto}', [ProdutoController::class, 'show'])->name('produto.show');
+    });
+    
 });
 
 /*

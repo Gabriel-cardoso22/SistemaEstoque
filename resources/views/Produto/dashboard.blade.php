@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - Funcionário')
+@section('title', 'Dashboard - Produto')
 
 @section('content')
 <div class="container py-4">
 
     {{-- Mensagem de boas-vindas --}}
     <div class="text-center mb-4">
-        <h3 class="fw-bold">Bem-vindo{{ isset($funcionario) ? ', ' . $funcionario->nome : '' }}!</h3>
+        <h3 class="fw-bold">Bem-vindo{{ isset($produto) ? ', ' . $produto->nome : '' }}!</h3>
         <p class="text-muted fs-5 mb-1">ao</p>
         <h4 class="text-primary fw-bold">Sistema de Gestão de Estoque</h4>
     </div>
@@ -44,7 +44,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-primary">Consultar Produtos</h5>
                     <p class="card-text text-muted">
-                        Visualize os produtos disponíveis no estoque e suas respectivas quantidades.
+                        Visualize os produtos cadastrados e suas informações detalhadas.
                     </p>
                     <a href="{{ route('produto.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-primary">Listar Funcionários</h5>
                     <p class="card-text text-muted">
-                        Consulte a lista de colegas de trabalho e visualize suas informações básicas.
+                        Consulte a lista de funcionários ativos no sistema.
                     </p>
                     <a href="{{ route('funcionarios.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
                 </div>

@@ -28,7 +28,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('gerentes.index') }}">Gerenciar Gerentes</a></li>
-                            <li><a class="dropdown-item" href="{{ route('produtos.index') }}">Gerenciar Produtos</a></li>
+                            <li><a class="dropdown-item" href="{{ route('produto.index') }}">Gerenciar Produtos</a></li>
                             <li><a class="dropdown-item" href="{{ route('funcionarios.index') }}">Gerenciar Funcionários</a></li>
                         </ul>
                     </li>
@@ -45,7 +45,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-primary">Gerenciar Produtos</h5>
                     <p class="card-text text-muted">Cadastre, edite, remova e consulte produtos do estoque. Mantenha o inventário sempre atualizado.</p>
-                    <a href="{{ route('produtos.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
+                    <a href="{{ route('produto.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
                 </div>
             </div>
         </div>

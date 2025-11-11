@@ -16,14 +16,14 @@ class ProdutoController extends Controller
     public function index()
     {
         $produtos = Produto::with(['fornecedor', 'user'])->paginate(10);
-        return view('produtos.index', compact('produtos'));
+        return view('produto.index', compact('produtos'));
     }
 
     public function create()
     {
         Log::info("Produto criado por");
         $fornecedores = Fornecedor::all();
-        return view('produtos.create', compact('fornecedores'));
+        return view('produto.create', compact('fornecedores'));
     }
 
     public function store(Request $request)
@@ -41,23 +41,23 @@ class ProdutoController extends Controller
         $produto->user_id = Auth::id();
         $produto->save();
 
-        return redirect()->route('produtos.index')
+        return redirect()->route('produto.index')
             ->with('success', 'Produto cadastrado com sucesso!');
     }
 
-    public function show(Produto $produto)
+    public function show(Produto $produtos)
     {
-        return view('produtos.show', compact('produto'));
+        return view('produto.show', compact('produtos'));
     }
 
-    public function edit(Produto $produto)
+    public function edit(Produto $produtos)
     {
         Log::info("Produto editado por ");
         $fornecedores = Fornecedor::all();
-        return view('produtos.edit', compact('produto', 'fornecedores'));
+        return view('produto.edit', compact('produtos', 'fornecedores'));
     }
 
-    public function update(Request $request, Produto $produto)
+    public function update(Request $request, Produto $produtos)
     {
         $request->validate([
             'nome' => 'required|max:255',
@@ -68,18 +68,18 @@ class ProdutoController extends Controller
             'fornecedor_id' => 'required|exists:fornecedores,id'
         ]);
 
-        $produto->update($request->all());
+        $produtos->update($request->all());
 
-        return redirect()->route('produtos.index')
+        return redirect()->route('produto.index')
             ->with('success', 'Produto atualizado com sucesso!');
     }
 
-    public function destroy(Produto $produto)
+    public function destroy(Produto $produtos)
     {
         Log::info("Produto deletado por");
-        $produto->delete();
+        $produtos->delete();
 
-        return redirect()->route('produtos.index')
+        return redirect()->route('produto.index')
             ->with('success', 'Produto excluído com sucesso!');
     }
 }
