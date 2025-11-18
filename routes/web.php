@@ -120,3 +120,10 @@ Route::middleware(['auth'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/telaCadastro', fn() => view('telaCadastro'))->name('telaCadastro');
+
+/*
+|--------------------------------------------------------------------------
+| Rota de geração de relatórios em PDF
+|--------------------------------------------------------------------------
+*/
+Route::get('/relatorio-produtos', [RelatorioController::class, 'gerarRelatorio'])->name('relatorio.produtos');
