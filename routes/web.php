@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GerenteController;
 use App\Http\Controllers\FuncionarioController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\RelatorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,14 @@ Route::middleware(['auth'])->group(function () {
     
         // Opcional
         // Route::get('/{produto}', [ProdutoController::class, 'show'])->name('produto.show');
+    });
+    Route::prefix('fornecedores')->group(function () {
+        Route::get('/', [\App\Http\Controllers\FornecedorController::class, 'index'])->name('fornecedores.index');
+        Route::get('/create', [\App\Http\Controllers\FornecedorController::class, 'create'])->name('fornecedores.create');
+        Route::post('/', [\App\Http\Controllers\FornecedorController::class, 'store'])->name('fornecedores.store');
+        Route::get('/{fornecedor}/edit', [\App\Http\Controllers\FornecedorController::class, 'edit'])->name('fornecedores.edit');
+        Route::put('/{fornecedor}', [\App\Http\Controllers\FornecedorController::class, 'update'])->name('fornecedores.update');
+        Route::delete('/{fornecedor}', [\App\Http\Controllers\FornecedorController::class, 'destroy'])->name('fornecedores.destroy');
     });
     
 });
