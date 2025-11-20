@@ -30,6 +30,7 @@
                             <li><a class="dropdown-item" href="{{ route('gerentes.index') }}">Gerenciar Gerentes</a></li>
                             <li><a class="dropdown-item" href="{{ route('produto.index') }}">Gerenciar Produtos</a></li>
                             <li><a class="dropdown-item" href="{{ route('funcionarios.index') }}">Gerenciar Funcionários</a></li>
+                            <li><a class="dropdown-item" href="{{ route('fornecedores.index') }}">Gerenciar Fornecedores</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -66,6 +67,16 @@
                     <h5 class="card-title text-primary">Gerenciar Gerentes</h5>
                     <p class="card-text text-muted">Gerencie os usuários com perfil de gerente, controlando acesso e permissões no sistema.</p>
                     <a href="{{ route('gerentes.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Gerenciar Fornecedores</h5>
+                    <p class="card-text text-muted">Gerencie os fornecedores da empresa, controlando produtos fornecidos.</p>
+                    <a href="{{ route('fornecedores.index') }}" class="btn btn-outline-primary btn-sm">Acessar</a>
                 </div>
             </div>
         </div>

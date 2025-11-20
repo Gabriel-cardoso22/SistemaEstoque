@@ -14,7 +14,7 @@ class FornecedorController extends Controller
     public function index()
     {
         $fornecedores = Fornecedor::withCount('produtos')->paginate(10);
-        return view('Fornecedor.index', compact('fornecedores'));
+        return view('Fornecedores.index', compact('fornecedores'));
     }
 
     /**
@@ -22,7 +22,7 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        return view('Fornecedor.create');
+        return view('Fornecedores.create');
     }
 
     /**
@@ -53,7 +53,7 @@ class FornecedorController extends Controller
      */
     public function edit(Fornecedor $fornecedor)
     {
-        return view('Fornecedor.edit', compact('fornecedor'));
+        return view('Fornecedores.edit', compact('fornecedor'));
     }
 
     /**
