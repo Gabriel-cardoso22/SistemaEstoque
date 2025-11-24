@@ -8,15 +8,15 @@
 
     <div class="card shadow-sm border-0">
         <div class="card-body">
-            <form action="{{ route('produto.update', $produto->id) }}" method="POST">
+            <form action="{{ route('produto.update', $produto) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 {{-- Nome --}}
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome do Produto</label>
-                    <input type="text" name="nome" id="nome" class="form-control"
-                           value="{{ old('nome', $produto->nome) }}" required>
+                          <input type="text" name="nome" id="nome" class="form-control"
+                              value="{{ old('nome', $produto->nome) }}" required>
                     @error('nome') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
@@ -30,24 +30,24 @@
                 {{-- Preço --}}
                 <div class="mb-3">
                     <label for="preco" class="form-label">Preço (R$)</label>
-                    <input type="number" step="0.01" name="preco" id="preco" class="form-control"
-                           value="{{ old('preco', $produto->preco) }}" required>
+                          <input type="number" step="0.01" name="preco" id="preco" class="form-control"
+                              value="{{ old('preco', $produto->preco) }}" required>
                     @error('preco') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 {{-- Quantidade --}}
                 <div class="mb-3">
                     <label for="quantidade" class="form-label">Quantidade</label>
-                    <input type="number" name="quantidade" id="quantidade" class="form-control"
-                           value="{{ old('quantidade', $produto->quantidade) }}" required>
+                          <input type="number" name="quantidade" id="quantidade" class="form-control"
+                              value="{{ old('quantidade', $produto->quantidade) }}" required>
                     @error('quantidade') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 {{-- Categoria --}}
                 <div class="mb-3">
                     <label for="categoria" class="form-label">Categoria</label>
-                    <input type="text" name="categoria" id="categoria" class="form-control"
-                           value="{{ old('categoria', $produto->categoria) }}" required>
+                          <input type="text" name="categoria" id="categoria" class="form-control"
+                              value="{{ old('categoria', $produto->categoria) }}" required>
                     @error('categoria') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
