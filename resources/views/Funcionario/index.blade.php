@@ -36,7 +36,7 @@
                 <tbody>
                     @forelse($funcionarios as $funcionario)
                         <tr>
-                            <td>{{ $funcionario->nome }}</td>
+                            <td>{{ $funcionario->name }}</td>
                             <td>{{ $funcionario->email }}</td>
                             <td>{{ $funcionario->telefone ?? '—' }}</td>
                             <td class="text-end">
