@@ -17,7 +17,7 @@
     {{-- Botão para gerar relatório --}}
     @if(auth()->check() && auth()->user()->role === 'gerente')
         <div class="mb-3 text-end">
-            <a href="{{ route('relatorio.produtos') }}" class="btn btn-primary btn-sm">
+            <a href="{{ route('relatorio.produtos') }}" class="btn btn-primary">
                 <i class="bi bi-box-seam"></i> Gerar Relatório
             </a>
         </div>
@@ -26,7 +26,10 @@
 
     {{-- Botão para cadastrar novo produto --}}
     <div class="mb-3 text-end">
-        <a href="{{ route('produto.create') }}" class="btn btn-primary btn-sm">
+        <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
+            ← Voltar para Dashboard
+        </a>
+        <a href="{{ route('produto.create') }}" class="btn btn-primary">
             <i class="bi bi-box-seam"></i> Novo Produto
         </a>
     </div>

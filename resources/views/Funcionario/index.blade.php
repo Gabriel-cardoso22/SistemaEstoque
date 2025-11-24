@@ -16,7 +16,10 @@
 
     {{-- Botão para cadastrar novo funcionário --}}
     <div class="mb-3 text-end">
-        <a href="{{ route('funcionarios.create') }}" class="btn btn-primary btn-sm">
+        <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
+            ← Voltar para Dashboard
+        </a>
+        <a href="{{ route('funcionarios.create') }}" class="btn btn-primary">
             <i class="bi bi-person-plus"></i> Novo Funcionário
         </a>
     </div>
