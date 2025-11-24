@@ -14,6 +14,13 @@
         </div>
     @endif
 
+    {{-- Botão para gerar relatório --}}
+    <div class="mb-3 text-end">
+        <a href="{{ route('relatorio.produtos') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-box-seam"></i> Gerar Relatório
+        </a>
+    </div>
+
     {{-- Botão para cadastrar novo produto --}}
     <div class="mb-3 text-end">
         <a href="{{ route('produto.create') }}" class="btn btn-primary btn-sm">
