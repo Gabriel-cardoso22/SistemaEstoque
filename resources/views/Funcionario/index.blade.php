@@ -15,14 +15,21 @@
     @endif
 
     {{-- Botão para cadastrar novo funcionário --}}
-    <div class="mb-3 text-end">
-        <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
-            ← Voltar para Dashboard
-        </a>
-        <a href="{{ route('funcionarios.create') }}" class="btn btn-primary">
-            <i class="bi bi-person-plus"></i> Novo Funcionário
-        </a>
-    </div>
+    @if(auth()->check() && auth()->user()->role === 'gerente')
+        <div class="mb-3 text-end">
+            <a href="{{ route('funcionarios.create') }}" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i> Novo Funcionário
+            </a>
+            <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
+                Voltar para Dashboard
+            </a>
+        </div>
+        @elseif(auth()->check() && auth()->user()->role === 'funcionario')
+            <a href="{{ route('dashboard.funcionario') }}" class="btn btn-outline-secondary">
+                Voltar para Dashboard
+            </a>
+        @endif
+
 
     {{-- Tabela de funcionários --}}
     <div class="card shadow-sm border-0">
@@ -42,6 +49,7 @@
                             <td>{{ $funcionario->name }}</td>
                             <td>{{ $funcionario->email }}</td>
                             <td>{{ $funcionario->telefone ?? '—' }}</td>
+                            @if(auth()->check() && auth()->user()->role === 'gerente')
                             <td class="text-end">
                                 <a href="{{ route('funcionarios.edit', $funcionario->id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <form action="{{ route('funcionarios.destroy', $funcionario->id) }}" method="POST" class="d-inline">
@@ -50,6 +58,7 @@
                                     <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deseja realmente excluir este funcionário?')">Excluir</button>
                                 </form>
                             </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
@@ -60,5 +69,6 @@
             </table>
         </div>
     </div>
+
 </div>
 @endsection

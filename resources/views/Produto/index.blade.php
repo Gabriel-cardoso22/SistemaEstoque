@@ -25,14 +25,20 @@
 
 
     {{-- Botão para cadastrar novo produto --}}
-    <div class="mb-3 text-end">
-        <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
-            ← Voltar para Dashboard
-        </a>
-        <a href="{{ route('produto.create') }}" class="btn btn-primary">
-            <i class="bi bi-box-seam"></i> Novo Produto
-        </a>
-    </div>
+    @if(auth()->check() && auth()->user()->role === 'gerente')
+        <div class="mb-3 text-end">
+            <a href="{{ route('produto.create') }}" class="btn btn-primary">
+                <i class="bi bi-box-seam"></i> Novo Produto
+            </a>
+                <a href="{{ route('dashboard.gerente') }}" class="btn btn-outline-secondary">
+                Voltar para Dashboard
+            </a>
+        </div>
+        @elseif(auth()->check() && auth()->user()->role === 'funcionario')
+            <a href="{{ route('dashboard.funcionario') }}" class="btn btn-outline-secondary">
+                Voltar para Dashboard
+            </a>
+    @endif
 
     {{-- Tabela de produtos --}}
     <div class="card shadow-sm border-0">
@@ -58,17 +64,18 @@
                             <td>{{ $produto->fornecedor->nome ?? '—' }}</td>
 
                             <td class="text-end">
-                                <a href="{{ route('produto.edit', $produto->id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                @if(auth()->check() && auth()->user()->role === 'gerente')
+                                    <a href="{{ route('produto.edit', $produto->id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
 
-                                <form action="{{ route('produto.destroy', $produto->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Deseja realmente excluir este produto?')">
-                                        Excluir
-                                    </button>
-                                </form>
+                                    <form action="{{ route('produto.destroy', $produto->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Deseja realmente excluir este produto?')">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @empty
